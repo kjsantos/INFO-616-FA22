@@ -13,8 +13,8 @@
             
             //1. Declare SVG width, height, and the space between bars, in pixels
             const svgWidth = 500;
-            const svgHeight = 300;
-            const barPadding = 1;
+            const svgHeight = 600;
+            const barPadding = 5;
 
             //2. Include our dataset for our bar chart 
             const dataset = [10, 20, 30, 40, 50];
@@ -32,14 +32,15 @@
                 .enter()
                 .append("rect") //actually adds rect
                 .attr("x", (d,i) => i * (svgWidth / dataset.length)) // x for rects: making rects evenly spaced per the width of our canvas, remember: d is our data value and i is our index placeholder
-                .attr("y", d=> svgHeight - d) // y for rects: making the y for rects the height of the svg minus the data value --  remember SVG coordinates (x,y) for rect are for the upper-left corner!
+                .attr("y", d=> svgHeight - d*2) // y for rects: making the y for rects the height of the svg minus the data value --  remember SVG coordinates (x,y) for rect are for the upper-left corner!
+                .attr("fill", "red")
                 .attr("width", svgWidth / dataset.length - barPadding) //width of bars is determined by the width of our SVG divided by the length of our data set, minus the space between each bar
-                .attr("height", d=>d); //height of rects will be the value of the data
+                .attr("height", d=>(d*2)); //height of rects will be the value of the data
+
                 
                 //console.log(dataset.length);
 
             //5. Change the color of the bars
-                //.attr("fill", "red");
 
             //6. Add data labels 
             //Note: This relies on basically the same code we have used, but now we are making a text element (which like line, circle, ellipse, and rect is another element we can add to an SVG element. We are using .text() to return d, our data values. We then use the exact same x and y information). 
@@ -49,8 +50,8 @@
                 .append("text")
                 .text(d=>d)
                 .attr("x", (d,i) => i * (svgWidth / dataset.length)) //you can always add a few pixels here...try adding + 40 to center the numbers)
-                .attr("y", d => svgHeight - d) //try + or - 5 here to see what happens to the numbers
-                //.attr("fill", "red"); //change the colors of the data labels
+                .attr("y", d => svgHeight - d*2) //try + or - 5 here to see what happens to the numbers
+                .attr("fill", "red"); //change the colors of the data labels
 
                 //other .attr() properties you might add to a text element could be "font-family", "font-size", "fill" (where values might be "sans-serif", "12px", and "white")
 
