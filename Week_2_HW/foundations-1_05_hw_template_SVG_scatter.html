@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>SVG Scatterplot Homework 1</title>
-        <scrip src= "https://d3js.org/d3.v7.min.js"></script>
+        <script src= "https://d3js.org/d3.v7.min.js"></script>
         <style type="text/css">
             /*TBD*/
 
@@ -14,8 +14,8 @@
             //1. Declare SVG width and height in pixels (remember the ; after declaring variables!)
             
             
-            //TODO: const 
-            //TODO: const
+            const svgHeight = 400;
+            const svgWidth = 800;
 
 
 
@@ -34,10 +34,10 @@
             //NOTE: this should be pretty straight forward from our example. 
             
             
-            //TODO: const svg = d3.select()
-                                // .append()
-                                // .attr() 
-                                // .attr(); //Hint: don't delete this ending ;
+            const svg = d3.select("body")
+                                .append("svg")
+                                .attr("height",svgHeight) 
+                                .attr("width",svgWidth); //Hint: don't delete this ending ;
 
 
             
@@ -48,14 +48,14 @@
             //NOTE: get the circles showing before you attempt the labels (step 5) 
 
             
-            //TODO: svg.selectAll()
-                        // .data()
-                        // .enter()
-                        // .append()
-                        // .attr() //(a required circle value, and a function of what it returns)  // Hint: we want to return d[] with the x value of the array
-                        // .attr() //(a required circle value, and a function of what it returns)  // Hint: we want to return d[] with the y value of the array 
-                        // .attr() //(another required circle value, and a number: try 10)
-                        // .attr(); //optional: change the color of the circles 
+            svg.selectAll("circle")
+                        .data(dataset)
+                        .enter()
+                        .append("circle")
+                        .attr("cx", d => d[0]) //(a required circle value, and a function of what it returns)  // Hint: we want to return d[] with the x value of the array
+                        .attr("cy", d => svgHeight-d[1]) //(a required circle value, and a function of what it returns)  // Hint: we want to return d[] with the y value of the array 
+                        .attr("r", 5) //(another required circle value, and a number: try 10)
+                        .attr("fill", "red"); //optional: change the color of the circles 
 
             //HINT: don't forget the ending ;
 
@@ -65,13 +65,16 @@
             //NOTE: This will rely on much of the same code we have used in our SVG example. 
             
             
-            // TODO: svg.selectAll()
-            //      .data()
-            //      .enter()
-            //      .append()
-            //      .text() //we want the text to return the data values
-            //      .attr() //we want to give the text an x value, use what you used above, mind the difference between circle text properties 
-            //      .attr(); //we want to give the text a y value, use what you used above, mind the difference between circle text properties 
+            svg.selectAll("text")
+                    .data(dataset)
+                    .enter()
+                    .append("text")
+                    .text(d=>"(" + d + ")") //we want the text to return the data values
+                    .attr("x", d => d[0]+10) //we want to give the text an x value, use what you used above, mind the difference between circle text properties 
+                    .attr("y", d => svgHeight-d[1]+20) //we want to give the text a y value, use what you used above, mind the difference between circle text properties
+                    .attr("font-size", "12px")
+                    .attr("fill", "gray");
+
 
 
             
