@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Churchgoing Frequency Survey Data by State</title>
+        <script type="text/javascript" src= "https://d3js.org/d3.v7.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Quattrocento|Quattrocento+Sans">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style> 
+        h1 {
+          text-align: center;
+          text-transform: uppercase;
+          text-decoration: underline;
+          color: #a47053;
+          font-family: Quattrocento, serif;
+          font-size: 60px;
+        }
+
+        p {
+          text-align: center;
+          font-family: Quattrocento Sans, sans-serif;
+          font-size: 26px;
+          color: #909cac;
+          letter-spacing: 1.5px;
+        }
+
+        a {
+          text-align: center;
+          font-family: Quattrocento Sans, sans-serif;
+          font-size: 20px;
+          text-decoration: none;
+          color: skyblue;
+          letter-spacing: 1.5px;
+        }
+        </style>        
+    </head>
+    <body>
+        <h1>Frequency of Churchgoing by State</h1>
+        <p><script type="text/javascript">
+                
+        //const dataset;
+        const margin = 100;
+        const width = 1500; 
+        const height = 600;   
+        
+        //get the data
+        d3.csv("devout_religious_survey.csv").then(dataset => {
+        //format data
+        dataset.forEach(d => { 
+            d.state = d.state;
+            d.once_week = d.once_week;
+            d.once_month = d.once_month;
+            d.never = d.never;
+            d.idk = d.idk;
+            d.sample = d.sample; 
+        });
+
+        const maxY = d3.max(dataset, d => d.once_week);
+
+        const xScale = d3.scaleBand()
+                        .domain(dataset.map(d => d.state))
+                        .range([margin, width - margin])
+                        .paddingInner(.2);
+        
+        const yScale = d3.scaleLinear()
+                        .domain([0, maxY]) 
+                        .range([height - margin, margin]);
+        
+        const bottomAxis = d3.axisBottom().scale(xScale);
+        const leftAxis = d3.axisLeft().scale(yScale);
+
+        //Create our SVG element
+        const svg = d3.select("body")
+                    .append("svg")
+                    .attr("width", width)
+                    .attr("height", height);
+
+        //Make bars and append data
+        svg.selectAll("rect") 
+            .data(dataset) 
+            .enter()
+            .append("rect")
+            .attr("x", d => xScale(d.state)) 
+            .attr("y", d => yScale(d.once_week)) 
+            .attr("width", xScale.bandwidth())
+            .attr("height", d => (height-margin) - yScale(d.once_week))
+            .attr("fill", "#a47053");
+
+        //Implement bottom axis
+        svg.append("g")
+            .attr("transform", "translate(0," + (height - margin) + ")") 
+            .call(bottomAxis);
+
+
+        //Implement left axis
+        svg.append("g")
+            .attr("transform", "translate(" + margin + ",0)")
+            .call(leftAxis);
+
+        svg.append("text")
+            .attr("class", "x label")
+            .attr("text-anchor", "middle")
+            .attr("x", width/2)
+            .attr("y", height)
+            .text("State");
+
+        svg.append("text")
+            .attr("class", "y label")
+            .attr("text-anchor", "middle")
+            .attr("transform", "rotate(-90)")
+            .text("Percentage of Sample");
+
+        svg.append("title")
+            .text("Percentage of Churchgoers who go Once a Week"); 
+        
+        console.log(dataset);
+        
+    });
+        </script></p>
+    </body>
+</html>
