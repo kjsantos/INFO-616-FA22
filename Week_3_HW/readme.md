@@ -18,7 +18,9 @@ Once cleaned, I used simple D3 functions to map my data by its columns and creat
 
 ### Final Visualization
 
-Once rendered, I was able to fit my entire visualization on one page depicting the frequency of churchgoers in each state. While difficult, I found that making small adjustments as I went along resulted in a much cleaner final product. ![](/Week_3_HW/Final_viz.png "Final Visualization")
+Once rendered, I was able to fit my entire visualization on one page depicting the frequency of churchgoers in each state. While difficult, I found that making small adjustments as I went along resulted in a much cleaner final product. 
+
+![Final Bar Chart](/Week_3_HW/Final_viz.png "Final Visualization")
 
 ## Some Notes
 
