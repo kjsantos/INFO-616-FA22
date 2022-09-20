@@ -86,7 +86,7 @@
             .attr("y", d => yScale(d.once_week)) 
             .attr("width", xScale.bandwidth())
             .attr("height", d => (height-margin) - yScale(d.once_week))
-            .attr("fill", "#a47053");
+            .attr("fill", "teal");
 
         //Implement bottom axis
         svg.append("g")
@@ -107,9 +107,11 @@
             .text("State");
 
         svg.append("text")
-            .attr("class", "y label")
-            .attr("text-anchor", "middle")
             .attr("transform", "rotate(-90)")
+            .attr("y", 0 - margin.left)
+            .attr("x",0 - (height / 2))
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
             .text("Percentage of Sample");
 
         svg.append("title")
