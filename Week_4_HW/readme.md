@@ -24,6 +24,6 @@ Once I was happy with the general concept of my visualization, I began making mi
 
 ## Final Thoughts
 
-This exercise was both challenging and fulfilling at the same time. I very much enjoyed experimenting with shapes, as it helped me to better understand paths as a concept. I think this is a valuable concept to learn for future visualizations as well as certain web design projects.
+This exercise was both challenging and fulfilling at the same time. I very much enjoyed experimenting with shapes, as it helped me to better understand paths as a concept. I think this is a valuable concept to learn for future visualizations as well as certain web design projects. I would love to experiment further with this concept to attempt some more detailed drawings with multiple shapes layered together.
 
 
