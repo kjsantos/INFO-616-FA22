@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>Wildfire Data SVG Drawing Practice</title>
+        <script src= "https://d3js.org/d3.v7.min.js"></script>
+        <style type="text/css"> 
+          svg{
+            width:1200px;
+            height:1200px;
+          }
+
+          .title {
+            font-size: 24px;
+            font-weight: bold;
+            font-family: Georgia, serif;
+            font-kerning: initial;
+          }
+
+          .labels{
+            font-size: 13px;
+            font-weight: normal;
+            font-family: Georgia, sans-serif;
+          }
+        
+        </style>
+    </head>
+    <body>
+        <svg></svg>
+
+        <script type="text/javascript">
+        
+              
+        const draw = ["M200,200 C130,120 220,70 210,50 C260,80 210,100 240,140 C210,100 280,80 240,10 C310,60 310,80 303,90 C298,100 306,120 306,120 C285,70 340,80 320,40 C400,80 380,180 360,200 C330,230 230,230, 200,200"];
+
+        d3.csv("YearFiresAcres.csv").then(dataset => {  
+
+        dataset.forEach(d => {
+            d.Year = d.Year;
+            d.Fires = d.Fires;
+            d.Acres = d.Acres;
+        });
+
+        const maxData = d3.max(dataset, d=>d.Fires);
+        const minData = d3.min(dataset, d=>d.Fires);
+        const myColor = d3.scaleQuantize()
+                          .domain([minData, maxData])
+                          .range(['#ffffcc','#ffeda0','#fed976','#feb24c','#fd8d3c','#fc4e2a','#e31a1c','#bd0026','#800026']);
+        const myColor2 = d3.scaleQuantize()
+                          .domain([d3.max(dataset, d=>d.Acres), d3.min(dataset, d=>d.Acres)])
+                          .range(['#fb6a4a','#de2d26','#a50f15']);
+        const perRow = 5;
+        const size = 180;
+        const sizeY = 180;
+
+        const svg = d3.select("svg");
+
+        const g = svg.selectAll("g")
+                      .data(dataset)
+                      .enter()
+                      .append("g")
+                      .attr("transform", (d,i)=>{
+                        const x = (i % perRow + 1) * size;
+                        const y = (Math.floor(i/perRow)+.55) * sizeY;
+                        return "translate(" + [x,y] + ")";})
+
+        g.append("path")
+          .attr("d", draw)
+          .attr("stroke-width", 3)
+          .attr("fill", d=> myColor(d.Fires))
+          .attr("stroke", "red")
+          .attr("transform", "scale(.5)");
+
+        //Make Labels
+        g.append("text")
+          .attr("x", size/2) //x coordinate
+          .attr("y", size) //y coordinate
+          .attr("text-anchor", "middle") //horizontal text alignment 
+          .attr("dx", "50px")//x coordinate offset
+          .attr("dy", "-40px") //y coordinate offset
+          .attr("font-family", "Georgia, sans-serif")
+          .attr("font-weight", "bold")
+          .text(d=>d.Year); //the text
+          
+
+        g.append("text")
+          .attr("x", size/2) //x coordinate
+          .attr("y", size) //y coordinate
+          .attr("text-anchor", "middle") //horizontal text alignment 
+          .attr("dx", "50px")//x coordinate offset
+          .attr("dy", "-20px") //y coordinate offset
+          .attr("class","labels")
+          .attr("fill", d=>myColor2(d.Acres))
+          .text(d=>d.Acres + " Acres Burned"); //the text 
+          
+
+         
+
+
+        //Make Title (Note the difference between svg.append text and g.append text) 
+        svg.append("text")
+           .attr("x", 675) //x coordinate
+           .attr("y", 50) //y coordinate
+           .attr("text-anchor", "middle") //horizontal text alignment
+           .attr("fill", "#AA4A44")
+           .attr("class", "title")
+           .text("Wildfires in the Last 20 Years (Darker = More Fires)"); //the text 
+
+        });
+          
+          
+
+
+        </script>
+    </body>
+  </html>
