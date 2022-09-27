@@ -4,7 +4,7 @@ This repository contains the necessary material for the third homework assignmen
 
 ## Understanding the Data
 
-The data used for this project was taken from the National Interagency Fire Center. NIFC's website offers a simple dataset containing the number of wildfires and the amount of acres they burned for each year. The reporting is taken from federal wildland fire agencies and dates back to 1983. For my purposes, I was curious about the past 20 years, so I scraped only the relevant data and saved it to a TSV for further cleaning. To see the full dataset, follow the link ![here](https://www.nifc.gov/fire-information/statistics/wildfires).
+The data used for this project was taken from the National Interagency Fire Center. NIFC's website offers a simple dataset containing the number of wildfires and the amount of acres they burned for each year. The reporting is taken from federal wildland fire agencies and dates back to 1983. For my purposes, I was curious about the past 20 years, so I scraped only the relevant data and saved it to a TSV for further cleaning. To see the full dataset, follow the link [here](https://www.nifc.gov/fire-information/statistics/wildfires).
 
 ## Coding the Visualization
 
