@@ -22,13 +22,8 @@ Once I was happy with the general concept of my visualization, I began making mi
 
 ![Final Bar Chart](/Week_4_HW/FireViz.png/ "Final Visualization")
 
-## Some Notes
+## Final Thoughts
 
-Although I was happy with my bar chart, there are certainly a few things I would love to explore using this data in the future, given more practice and experience with D3:
-
-- The data also includes other frequencies for service attendance, such as once a month/a few times a year or never. It would be interesting to attempt a stacked bar chart that shows the distribution in each state.
-- If possible, it would be interesting to filter the data so that only the top 10 states with the highest frequencies are displayed. This may be useful when creating multiple visualizations to compare side-by-side
-- I would also like to explore more style elements, such as implementing something like Bootstrap for consistency across the board.
-- Once we start working with multi-dimensional data, it would be interesting to explore what manipulations I could make to this data, as well as comparing other data points such as census data to the data in this survey.
+This exercise was both challenging and fulfilling at the same time. I very much enjoyed experimenting with shapes, as it helped me to better understand paths as a concept. I think this is a valuable concept to learn for future visualizations as well as certain web design projects.
 
 
