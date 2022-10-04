@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>Wildfire Data SVG Drawing Practice</title>
+        <script src= "https://d3js.org/d3.v7.min.js"></script>
+        <link rel="stylesheet" href="https://use.typekit.net/rvm8ynv.css">
+        <style type="text/css"> 
+          svg{
+            width:1400px;
+            height:1400px;
+          }
+
+          .title {
+            font-family: cooper-black-std, serif;
+            font-size: 36px;
+            font-weight: 400;
+            font-style: normal;
+          }
+
+          .labels{
+            font-size: 14px;
+            font-family: cooper-black-std, serif;
+            font-weight: 400;
+            font-style: normal;
+          }
+        
+        </style>
+    </head>
+    <body>
+        <svg></svg>
+
+        <script type="text/javascript">
+        
+              
+        const draw = ["M180,200 C210,160 215,70 210,50 C230,55 260,55 270,50 C265,70 270,160 300,200 Z M270,50 C260,45 230,45 210,50 C230,55 260,55 270,50 Z M230,40 C280,38 140,35 260,30 C350,28 110,23 290,15 C330,15 220,20 320,25 C 340,25 110,35 250,35Z"];
+
+        d3.csv("total_ghg_emissions.csv").then(dataset => {  
+
+        dataset.forEach(d => {
+            d.year = d.year;
+            d.gas = d.total_gas;
+        });
+
+        const maxData = d3.max(dataset, d=>d.total_gas);
+        const minData = d3.min(dataset, d=>d.total_gas);
+        const myColor = d3.scaleQuantize()
+                          .domain([minData, maxData])
+                          .range(["#efefb7","#caca83","#999953","#76753d","#47472d"]);
+        const perRow = 5;
+        const size = 200;
+        const sizeY = 240;
+
+        const svg = d3.select("svg");
+
+        const g = svg.selectAll("g")
+                      .data(dataset)
+                      .enter()
+                      .append("g")
+                      .attr("transform", (d,i)=>{
+                        const x = (i % perRow + 1) * size;
+                        const y = (Math.floor(i/perRow)+.55) * sizeY;
+                        return "translate(" + [x,y] + ")";})
+
+        g.append("path")
+          .attr("d", draw)
+          .attr("stroke-width", 3)
+          .attr("fill", d=> myColor(d.gas))
+          .attr("stroke", "black")
+          .attr("transform", "scale(.75)");
+
+        //Make Labels
+        g.append("text")
+          .attr("x", size/2) //x coordinate
+          .attr("y", sizeY) //y coordinate
+          .attr("text-anchor", "middle") //horizontal text alignment 
+          .attr("dx", "78px")//x coordinate offset
+          .attr("dy", "-50px") //y coordinate offset
+          .attr("class", "labels")
+          .text(d=>d.Year); //the text
+          
+
+        g.append("text")
+          .attr("x", size/2) //x coordinate
+          .attr("y", sizeY) //y coordinate
+          .attr("text-anchor", "middle") //horizontal text alignment 
+          .attr("dx", "78px")//x coordinate offset
+          .attr("dy", "-30px") //y coordinate offset
+          .attr("class","labels")
+          .text(d=>d.gas + " Metric Tonnes"); //the text 
+
+        //Make Title (Note the difference between svg.append text and g.append text) 
+        svg.append("text")
+           .attr("x", 760) //x coordinate
+           .attr("y", 50) //y coordinate
+           .attr("text-anchor", "middle") //horizontal text alignment
+           .attr("fill", "Green")
+           .attr("class", "title")
+           .text("Total Greenhouse Gas Emissions in the U.S. (Metric Tonnes)"); //the text 
+
+        });
+          
+          
+
+
+        </script>
+    </body>
+  </html>
