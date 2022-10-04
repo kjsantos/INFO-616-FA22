@@ -19,6 +19,12 @@
             font-style: normal;
           }
 
+          .description {
+            font-size: 18px;
+            font-family: cooper-black-std, serif;
+            font-weight: normal;
+        }
+
           .labels{
             font-size: 14px;
             font-family: cooper-black-std, serif;
@@ -47,7 +53,7 @@
         const minData = d3.min(dataset, d=>d.total_gas);
         const myColor = d3.scaleQuantize()
                           .domain([minData, maxData])
-                          .range(["#efefb7","#caca83","#999953","#76753d","#47472d"]);
+                          .range(["#efefb7","#caca83","#999953","#76753d","#47472d"]); //Color palette created with coolors.co to account for colorblindness
         const perRow = 5;
         const size = 200;
         const sizeY = 240;
@@ -62,6 +68,8 @@
                         const x = (i % perRow + 1) * size;
                         const y = (Math.floor(i/perRow)+.55) * sizeY;
                         return "translate(" + [x,y] + ")";})
+                      .attr("role","img")
+                      .attr("aria-labelledby", "title desc");
 
         g.append("path")
           .attr("d", draw)
@@ -99,7 +107,25 @@
            .attr("class", "title")
            .text("Total Greenhouse Gas Emissions in the U.S. (Metric Tonnes)"); //the text 
 
+        svg.append("text")
+          .attr("x", 760) //x coordinate
+          .attr("y", 90) //y coordinate
+          .attr("text-anchor", "middle") //horizontal text alignment
+          .attr("fill", "dimgray")
+          .attr("class", "description")
+          .text("A visualization showing Greenhouse Gas emissions from 2008-2018. Darker shading = more emissions");
+
+        svg.append("title")
+          .text("Greenhouse Gas Emissions in the U.S. 2008-2018")
+          .attr("id", "title");
+
+        svg.append("desc")
+          .text("This visualization uses data from the World Resources Institute, which tracks greenhouse gas emissions in the U.S. This visualization highlights the last 10 years of data and the opacity of the color palette grows darker with higher levels of emissions in a year.")
+          .attr("id", "desc");
+
         });
+
+        
           
           
 
