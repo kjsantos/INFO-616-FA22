@@ -20,6 +20,6 @@ To put my visualization together, I first designed a path drawing to create a sm
 
 The final product is a simple depiction of total greenhouse gas emissions with the deeper colors denoting higher levels of emissions. I feel this exercise was incredibly important to make sure information is accessible to as much of the population as possible.
 
-![Final Bar Chart](/Week_4_HW/GHG_Viz.png/ "Final Visualization")
+![Final Bar Chart](/Week_5_HW/GHG_Viz.png/ "Final Visualization")
 
 
