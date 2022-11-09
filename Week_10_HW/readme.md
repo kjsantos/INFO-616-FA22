@@ -20,6 +20,6 @@ Formatting my visualization in a way that appeared smooth, organized, and inform
 
 The final visualization is rather simple, but effective in its goal. Each candidate is represented by a bubble that varies in size based on the amount of individual police contributions they received. Each candidate's party is also reflected by the color pallette I chose, which I've selected due to their party association. See the interactive viz below:
 
-![Final Viz](/Week_10_HW/visgif.gif/ "Final Visualization")
+![Final Viz](/Week_10_HW/vizgif.gif/ "Final Visualization")
 
 
