@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Force Network Graph Example</title>
+        <script src= "https://d3js.org/d3.v7.min.js"></script>
+        <link rel="stylesheet" href="https://use.typekit.net/rvm8ynv.css">
+        <style type="text/css">
+
+            p{
+                font-size: 11px;
+                font-family: komet-sc, sans-serif;
+                font-weight: 500;
+                font-style: normal;
+            }
+
+            .fade-in-text {
+                font-family: dapifer, serif;
+                font-weight: 900;
+                font-style: normal;
+                padding: 20px;
+                font-size: 76px;
+                text-align: center;
+                animation: fadeIn 2s;
+            }
+            .sub {
+                opacity: 0;
+                padding-left: 100px;
+                padding-right: 80px;
+                font-family: komet-sc, sans-serif;
+                font-weight: 500;
+                font-style: normal;
+                font-size: 24px;
+                text-align: left;
+                animation: fadeIn 2s;
+                animation-fill-mode: forwards;
+                animation-delay: .5s;
+            }
+
+            #tooltip{
+                font-family: dapifer, serif;
+                position: absolute;
+                width: 180px;
+                height: 80px;
+                padding: 5px;    
+                text-align: left;
+                text-anchor: middle;
+                color: white;
+                font-size: 14px;
+                font-weight: 600;
+                font-style: normal;
+                background: slategray; 
+                border-radius: 10px;
+            }
+            
+            @keyframes fadeIn {
+                0% { opacity: 0; }
+                100% { opacity: 1; }
+            }
+
+        </style>
+    </head>
+    <body>
+        <div class="fade-in-text">Individual Police Donations in 2020</div>
+        <div class="sub">How much money did your local law enforcement donate to candidates in the 2020 election? This visualization breaks down total contributions to each candidate for the 2020 election cycle. Hover to reveal total amounts received.</div>
+        <svg width="1200" height="600"></svg>
+        <script type="text/javascript">
+           
+            const svg = d3.select("svg");
+            const w = 1400;
+            const h= 600; 
+            const tooltip =d3.select("body")
+                         .append("div")
+                         .attr("id", "tooltip")
+                         .style("opacity", 0);
+            const myColor = d3.scaleOrdinal(['#DC1403','#6495ED','#EEE80A','#C0C0C0']);
+
+            Promise.all([
+                d3.csv("PoliceDonations.csv"),
+                d3.csv("link.csv"),
+            ]).then(function(files) {
+                const dataset = {
+                  "nodes": files[0].map(d => { return {"id": +d.id, "name": d.cd, "party": +d.party, "total": +d.total}}),
+                  "links": files[1].map(d => { return {"source": +d.source, "target": +d.target}})
+                };
+                console.log(dataset)
+
+            
+
+            
+            const maxd = d3.max(files[0], d=>d.total); 
+            const xcenter = [(w-(4*w/6)), (w-(3*w/6)), (w-(2*w/6)), (w-(w/6))]
+
+            const simulation = d3.forceSimulation(dataset.nodes)
+                                .force("charge", d3.forceManyBody().strength(-1))
+                                .force("x", d3.forceX().x(function(d) {
+                                    return xcenter[d.party]}))
+                                .force("y", d3.forceY().y(h/4))
+                                .force("link", d3.forceLink(dataset.links))
+                                .force("collision", d3.forceCollide().radius(d=>(d.total/maxd)*9));
+
+            const links = svg.selectAll("line")
+                                 .data(dataset.links)
+                                 .enter()
+                                 .append("line")
+                                 .style("stroke", "black")
+                                 .style("stroke-width", 0);
+                                
+            const nodes = svg.selectAll("circle")
+                            .data(dataset.nodes)
+                            .enter()
+                            .append("circle")
+                            .attr("r", d=>(d.total/maxd)*9) 
+                            .style("fill", (d,i)=>myColor(d.party))
+                            .style("stroke", "black")
+                            .on("mouseover", (event, d)=> {
+                                 d3.select("#tooltip")
+                                   .transition()
+                                   .duration(300)//milliseconds!
+                                   .style("opacity", 1)
+                                   .style("left", (event.pageX + 10) + "px")
+                                   .style("top", (event.pageY + 10) + "px")
+                            tooltip.html(d.name + "<br>" + "<p>Total Police Donations: $" + d.total + "</p>");
+                                })     
+                            .on("mouseout", (event, d)=>{
+                                d3.select("#tooltip")
+                                  .transition()
+                                  .style("opacity", 0);
+                                })
+                            .on("mousemove", (event, d) =>{
+                                d3.select("#tooltip")
+                                  .style("left", (event.pageX + 10) + "px")
+                                  .style("top", (event.pageY + 10) + "px")
+                            });
+
+            
+
+            simulation.on("tick", (event,d)=>{      
+              links.attr("x1", d=>d.source.x)
+                   .attr("y1", d=>d.source.y)
+                   .attr("x2", d=>d.target.x)
+                   .attr("y2", d=>d.target.y);
+
+              nodes.attr("cx", d=>d.x)
+                   .attr("cy", d=>d.y);
+            });
+        });
+
+            
+
+
+        </script>
+    </body>
+</html>
