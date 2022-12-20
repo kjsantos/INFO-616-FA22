@@ -12,22 +12,22 @@ To view this piece, it is best to ensure all packages are installed. To do so, f
 npm start
 ```
 
+Once the server has started, you can open a browser and navigate the the local host address provided in your shell. From there, simply open final.html and click through the pages to explore.
 
 
 ### Cleaning Data
 
-For this assignment, rather than using tools to create links, I ended up creating the dataset mostly from scratch. The dataset on OpenSecrets is in xlxs format, so I first converted it to a CSV and cleaned up column names and other anomalies in order to prepare the data for visualization. To create links between each node (recipient), I created a CSV that contains each node's index and links them to other recipients within the same political party. Once I was able to do so, I went ahead and started to code out my viz. 
+Luckily, a majority of my data was clean prior to the analysis step. However, because of the size of data, I had to create more scalable datasets to work with. Starting with the CCRB dataset, I created a running total dataset from 1999-2022 using pivot tables in Microsoft Excel. I then used OpenRefine to further clean my data and remove any unnecessary values.
+
+I also had to hard code some data into one of my visualizations—the data used in the fiscal budget slide was taken from an official state budget report from 2020.
 
 ### D3 Code
 
-To create my visualization, I first set all of my CSS stylings, which included font sheets as well as settings for my tooltip. Once done, I loaded in my data from the CSVs I created using the class material as reference. I used the total amount of donations that a candidate received for their campaign as the radius for each node to highlight the difference in funding compared to others. This was a challenge, as the dollar amounts were incredibly high, so the radius calculation required a bit of scaling to get the sizes under control. Additionally, I was having issues with the clusters colliding and sending each other off of my page——to rectify this, I converted each candidate's party to a categorical number, which allowed me to center each party using a separate x-value. Once I was happy with the positioning of my graph, I added a few transitions and included relevant information in my tooltip.
+Organizing my project in a way that utilizes several visualizations proved to be a challenge, but I think my efforts were mostly successful. Because I wanted to build a narrative from my data, I needed to create several visualizations using D3. These graphs can be found in the figs file within the repository. Using reveal.js, I was able to embed my individual html files in each slide without having to compropmise on style or animation. The most difficult part of this process turned out to be arranging my graphs in a way that felt seamless, but using the methods learned in class, I was able to make it work.
 
-Formatting my visualization in a way that appeared smooth, organized, and informative proved to be quite a challenge for this assignment. However, the end result was something I was proud to have accomplished.
+### Final Thoughts
 
-### Final Visualization
+Overall, I enjoyed working on a project that I was invested in background research for. Because the data I worked with is so vast, however, I found it difficult to hone in on which visualizations would be worth my time including for this project. I chose to focus on the process of CCRB complaints because I figured the details were nuanced enough that they deserved to be highlighted. However, this narrowed the scope of the other visualizations I had planned to create for this project, as they simply did not fit properly with the narrative. However, I am proud of what I was able to accomplish given the scope of my data.
 
-The final visualization is rather simple, but effective in its goal. Each candidate is represented by a bubble that varies in size based on the amount of individual police contributions they received. Each candidate's party is also reflected by the color pallette I chose, which I've selected due to their party association. See the interactive viz below:
-
-![Final Viz](/Week_10_HW/vizgif.gif/ "Final Visualization")
-
+I plan to continue working on this project, as it feels as though some more visuals would help to propel the narrative I've begun to construct. One visualization I still plan on incorporating would be a bubble chart of NYPD officers' pay. When attempting to code this visualization specifically, I realized there were far too many records to include, so in the future, I will need to figure out a way to scale down the data while still making the information appear pertinent.
 
