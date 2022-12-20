@@ -29,10 +29,10 @@ Organizing my project in a way that utilizes several visualizations proved to be
 
 Here are the figures from my final projects below:
 
-![Figure 1](/img/fig1.png "Figure 1")
-![Figure 2](/img/fig2.png "Figure 2")
-![Figure 3](/img/fig3.png "Figure 3")
-![Figure 4](/img/fig4.png "Figure 4")
+![Figure 1](img/fig1.png "Figure 1")
+![Figure 2](img/fig2.png "Figure 2")
+![Figure 3](img/fig3.png "Figure 3")
+![Figure 4](img/fig4.png "Figure 4")
 
 ### Final Thoughts
 
