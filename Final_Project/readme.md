@@ -25,9 +25,20 @@ I also had to hard code some data into one of my visualizations—the data used 
 
 Organizing my project in a way that utilizes several visualizations proved to be a challenge, but I think my efforts were mostly successful. Because I wanted to build a narrative from my data, I needed to create several visualizations using D3. These graphs can be found in the figs file within the repository. Using reveal.js, I was able to embed my individual html files in each slide without having to compropmise on style or animation. The most difficult part of this process turned out to be arranging my graphs in a way that felt seamless, but using the methods learned in class, I was able to make it work.
 
+### Charts
+
+Here are the figures from my final projects below:
+
+![Figure 1](/img/fig1.png "Figure 1")
+![Figure 2](/img/fig2.png "Figure 2")
+![Figure 3](/img/fig3.png "Figure 3")
+![Figure 4](/img/fig4.png "Figure 4")
+
 ### Final Thoughts
 
 Overall, I enjoyed working on a project that I was invested in background research for. Because the data I worked with is so vast, however, I found it difficult to hone in on which visualizations would be worth my time including for this project. I chose to focus on the process of CCRB complaints because I figured the details were nuanced enough that they deserved to be highlighted. However, this narrowed the scope of the other visualizations I had planned to create for this project, as they simply did not fit properly with the narrative. However, I am proud of what I was able to accomplish given the scope of my data.
 
 I plan to continue working on this project, as it feels as though some more visuals would help to propel the narrative I've begun to construct. One visualization I still plan on incorporating would be a bubble chart of NYPD officers' pay. When attempting to code this visualization specifically, I realized there were far too many records to include, so in the future, I will need to figure out a way to scale down the data while still making the information appear pertinent.
+
+
 
