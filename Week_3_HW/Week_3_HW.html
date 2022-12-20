@@ -49,18 +49,14 @@
         d3.csv("devout_religious_survey.csv").then(dataset => {
         //format data
         dataset.forEach(d => { 
-            d.state = d.state;
-            d.once_week = d.once_week;
-            d.once_month = d.once_month;
-            d.never = d.never;
-            d.idk = d.idk;
-            d.sample = d.sample; 
+            d.count = d.count;
+            d.type = d.type;
         });
 
-        const maxY = d3.max(dataset, d => d.once_week);
+        const maxY = d3.max(dataset, d => d.count);
 
         const xScale = d3.scaleBand()
-                        .domain(dataset.map(d => d.state))
+                        .domain(dataset.map(d => d.type))
                         .range([margin, width - margin])
                         .paddingInner(.2);
         
@@ -82,10 +78,10 @@
             .data(dataset) 
             .enter()
             .append("rect")
-            .attr("x", d => xScale(d.state)) 
-            .attr("y", d => yScale(d.once_week)) 
+            .attr("x", d => xScale(d.type)) 
+            .attr("y", d => yScale(d.count)) 
             .attr("width", xScale.bandwidth())
-            .attr("height", d => (height-margin) - yScale(d.once_week))
+            .attr("height", d => (height-margin) - yScale(d.count))
             .attr("fill", "teal");
 
         //Implement bottom axis

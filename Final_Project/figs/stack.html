@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Complaints Through 2020</title>
+        <link rel="stylesheet" href="https://use.typekit.net/rvm8ynv.css">
+        <script type="text/javascript" src= "https://d3js.org/d3.v7.min.js"></script>
+        <style type="text/css"> 
+            h1 {
+                text-align: center;
+                text-transform: uppercase;
+                text-decoration: underline;
+                color: #a47053;
+                font-family: Quattrocento, serif;
+                font-size: 60px;
+            }
+
+            p {
+                opacity: 0;
+                font-family: komet-sc, sans-serif;
+                font-weight: 500;
+                font-style: normal;
+                font-size: 12px;
+                fill: white;
+                letter-spacing: 1.5px;
+            }
+
+            a {
+                text-align: center;
+                font-family: Quattrocento Sans, sans-serif;
+                font-size: 20px;
+                text-decoration: none;
+                color: skyblue;
+                letter-spacing: 1.5px;
+            }
+            svg {
+                height: 554px;
+                width: 600px;
+                margin: 70px;
+            }
+            #tooltip{
+                font-family: komet-sc, sans-serif;
+                position: absolute;
+                width: 70px;
+                height: 30px;
+                padding: 5px;    
+                text-align: center;
+                text-anchor: middle;
+                color: white;
+                font-size: 10px;
+                font-weight: 600;
+                font-style: normal;
+                background: slategray; 
+                border-radius: 10px;
+            }
+        </style>        
+    </head>
+    <body>
+        <br><br>
+        <script type="text/javascript">
+
+        const tooltip =d3.select("body")
+                         .append("div")
+                         .attr("id", "tooltip")
+                         .style("opacity", 0);
+
+        const dataset = [
+                        {"type": "abuse", "count": 23325},
+                        {"type": "force", "count": 10050},
+                        {"type": "discourtesy", "count": 4154},
+                        {"type": "language", "count": 885},
+                        {"type": "statement", "count": 140}
+                    ];
+
+        const margin = 70;
+        const width = 540; 
+        const height = 454;
+
+        const myColor = d3.scaleOrdinal(d3.schemeDark2)
+
+        const maxY = 23325; //max total in a single year
+
+         // Add X axis
+        const xScale = d3.scaleBand()
+                        .domain(dataset.map(d => d.type))
+                        .range([margin, width - margin])
+                        .paddingInner(.2)
+                        .paddingOuter(.2);
+        
+        const yScale = d3.scaleLinear()
+                        .domain([0, maxY]) 
+                        .range([height - margin, margin]);
+        
+        const bottomAxis = d3.axisBottom().scale(xScale);
+        const leftAxis = d3.axisLeft().scale(yScale);
+
+        //Create our SVG element
+        const svg = d3.select("body")
+                    .append("svg")
+                    .attr("width", width)
+                    .attr("height", height)
+                    .style("fill", "black");
+
+        //Make bars and append data
+        svg.selectAll("rect")
+            .data(dataset) 
+            .enter()
+            .append("rect")
+            .attr("x", d => xScale(d.type)) 
+            .attr("y", d => yScale(d.count)) 
+            .attr("width", xScale.bandwidth())
+            .attr("height", d => (height-margin) - yScale(d.count))
+            .attr("fill", (d, i) => myColor(i));
+
+        //Implement bottom axis
+        svg.append("g")
+            .style("font-family", "komet-sc")
+            .style("color","grey")
+            .style("font-size", "12px")
+            .attr("transform", "translate(0," + (height - margin) + ")") 
+            .call(bottomAxis);
+
+
+        //Implement left axis
+        svg.append("g")
+            .style("font-family", "komet-sc")
+            .style("color","grey")
+            .style("font-size", "10px")
+            .attr("transform", "translate(" + margin + ",0)")
+            .call(leftAxis);
+
+        d3.select("svg")
+            .append("text")
+            .style("font-family", "komet-sc")
+            .style("color","grey")
+            .style("font-size", "16px")
+            .attr("text-anchor", "middle")
+            .attr("x", width/2)
+            .attr("y", height)
+            .attr("font-family", "komet-sc")
+            .attr("fill","white")
+            .text("Allegation");
+
+        d3.select("svg")
+            .append("text")
+            .style("font-family", "komet-sc")
+            .style("color","grey")
+            .style("font-size", "20px")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0 - margin.left)
+            .attr("x",0 - (height / 2))
+            .attr("dy", "1em")
+            .attr("font-family", "komet-sc")
+            .attr("fill","white")
+            .style("text-anchor", "middle")
+            .text("Number of Complaints");
+        
+
+        /*const maxY = d3.max(dataset, d => d.total);
+
+        let xScale = d3.scaleBand()
+                        .domain(dataset.map(d => d.year))
+                        .range([margin, width - margin])
+                        .paddingInner(.2);
+        
+        const yScale = d3.scaleLinear()
+                        .domain([0, maxY]) 
+                        .range([height - margin, margin]);
+        
+        let bottomAxis = d3.axisBottom().scale(xScale);
+        let leftAxis = d3.axisLeft().scale(yScale);
+
+
+
+        d3.select("svg")
+            .selectAll("rect")
+            .data(dataset)
+            .join("rect")
+            .attr("fill", "#3256a8")
+            .on("mouseover", (event, d)=> {
+                d3.select("#tooltip")
+                    .transition()
+                    .duration(300)//milliseconds!
+                    .style("opacity", 1)
+                    .style("left", (event.pageX - 40) + "px")
+                    .style("top", (event.pageY + 15) + "px")
+                    tooltip.html("Complaints:       " + d.total);
+                    })     
+            .on("mouseout", (event, d)=>{
+                d3.select("#tooltip")
+                .transition()
+                .style("opacity", 0);
+                })
+            .on("mousemove", (event, d) =>{
+                d3.select("#tooltip")
+                .style("left", (event.pageX - 40) + "px")
+                .style("top", (event.pageY + 15) + "px")
+            })
+            .transition()
+            .duration(2000)
+            .attr("x", d => xScale(d.year)) 
+            .attr("y", d => yScale(d.total)) 
+            .attr("width", xScale.bandwidth())
+            .attr("height", d => (height-margin) - yScale(d.total))
+            .attr("fill", "#3256a8");
+
+        d3.select("svg")
+            .append("g")
+            .style("font-family", "komet-sc")
+            .style("color","grey")
+            .style("font-size", "8px")
+            .transition()
+            .ease(d3.easeCubic)
+            .style("font-size", "7px")
+            .attr("transform", "translate(0," + (height - margin) + ")") 
+            .call(bottomAxis);
+
+
+        //Implement left axis
+        d3.select("svg")
+            .append("g")
+            .style("font-family", "komet-sc")
+            .style("color","grey")
+            .transition()
+            .ease(d3.easeCubic)
+            .attr("transform", "translate(" + margin + ",0)")
+            .call(leftAxis);
+
+        d3.select("svg")
+            .append("text")
+            .attr("text-anchor", "middle")
+            .attr("x", width/2)
+            .attr("y", height)
+            .attr("font-family", "komet-sc")
+            .attr("fill","white")
+            .text("Year");
+
+        d3.select("svg")
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0 - margin.left)
+            .attr("x",0 - (height / 2))
+            .attr("dy", "1em")
+            .attr("font-family", "komet-sc")
+            .attr("fill","white")
+            .style("text-anchor", "middle")
+            .text("Number of Complaints");
+            
+
+        svg.append("title")
+            .text("Complaints over the years"); 
+
+    });*/
+        
+        </script>
+    </body>
+</html>

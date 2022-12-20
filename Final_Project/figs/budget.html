@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Churchgoing Frequency Survey Data by State</title>
+        <link rel="stylesheet" href="https://use.typekit.net/rvm8ynv.css">
+        <script type="text/javascript" src= "https://d3js.org/d3.v7.min.js"></script>
+    <style> 
+        h1 {
+          text-align: center;
+          text-transform: uppercase;
+          text-decoration: underline;
+          color: #a47053;
+          font-family: Quattrocento, serif;
+          font-size: 60px;
+        }
+
+        p {
+          text-align: center;
+          font-family: Quattrocento Sans, sans-serif;
+          font-size: 26px;
+          color: #909cac;
+          letter-spacing: 1.5px;
+        }
+
+        a {
+          text-align: center;
+          font-family: Quattrocento Sans, sans-serif;
+          font-size: 20px;
+          text-decoration: none;
+          color: skyblue;
+          letter-spacing: 1.5px;
+        }
+        </style>        
+    </head>
+    <body>
+        <script type="text/javascript">
+                
+        //const dataset;
+        const margin = 70;
+        const width = 500; 
+        const height = 400;   
+        
+        const dataset = [
+                        {"budget": 15.2, "year": 2017},
+                        {"budget": 16.4, "year": 2018},
+                        {"budget": 18.5, "year": 2019},
+                        {"budget": 19.7, "year": 2020},
+                        {"budget": 19.9, "year": 2021},
+                        {"budget": 24.5, "year": 2022},
+                        {"budget": 24.1, "year": 2023},
+                        {"budget": 24.1, "year": 2024}
+                    ];
+
+        const maxY = 30;
+
+        const xScale = d3.scaleBand()
+                        .domain(dataset.map(d => d.year))
+                        .range([margin, width - margin])
+                        .paddingInner(.2)
+                        .paddingOuter(.2);
+        
+        const yScale = d3.scaleLinear()
+                        .domain([0, maxY]) 
+                        .range([height - margin, margin]);
+        
+        const bottomAxis = d3.axisBottom().scale(xScale);
+        const leftAxis = d3.axisLeft().scale(yScale);
+
+        //Create our SVG element
+        const svg = d3.select("body")
+                    .append("svg")
+                    .attr("width", width)
+                    .attr("height", height)
+                    .style("fill", "black");
+
+        //Make bars and append data
+        svg.selectAll("rect")
+            .data(dataset) 
+            .enter()
+            .append("rect")
+            .attr("x", d => xScale(d.year)) 
+            .attr("y", d => yScale(d.budget)) 
+            .attr("width", xScale.bandwidth())
+            .attr("height", d=> (height-margin) - yScale(d.budget))
+            .attr("fill", "teal");
+
+        //Implement bottom axis
+        svg.append("g")
+            .style("font-family", "komet-sc")
+            .style("color","grey")
+            .style("font-size", "12px")
+            .attr("transform", "translate(0," + (height - margin) + ")") 
+            .call(bottomAxis);
+
+
+        //Implement left axis
+        svg.append("g")
+            .style("font-family", "komet-sc")
+            .style("color","grey")
+            .style("font-size", "12px")
+            .attr("transform", "translate(" + margin + ",0)")
+            .call(leftAxis);
+
+        d3.select("svg")
+            .append("text")
+            .style("font-family", "komet-sc")
+            .style("color","grey")
+            .style("font-size", "16px")
+            .attr("text-anchor", "middle")
+            .attr("x", width/2)
+            .attr("y", height)
+            .attr("font-family", "komet-sc")
+            .attr("fill","white")
+            .text("Year");
+
+        d3.select("svg")
+            .append("text")
+            .style("font-family", "komet-sc")
+            .style("color","grey")
+            .style("font-size", "20px")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0 - margin.left)
+            .attr("x",0 - (height / 2))
+            .attr("dy", "1em")
+            .attr("font-family", "komet-sc")
+            .attr("fill","white")
+            .style("text-anchor", "middle")
+            .text("Budget (Millions)");
+
+        svg.append("title")
+            .text("CCRB Fiscal Budget"); 
+
+        </script></p>
+    </body>
+</html>

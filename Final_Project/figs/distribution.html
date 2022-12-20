@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Force Network Graph Example</title>
+        <script src= "https://d3js.org/d3.v7.min.js"></script>
+        <link rel="stylesheet" href="https://use.typekit.net/rvm8ynv.css">
+        <style type="text/css">
+
+            p{
+                font-size: 11px;
+                font-family: komet-sc, sans-serif;
+                font-weight: 500;
+                font-style: normal;
+            }
+
+            .fade-in-text {
+                font-family: dapifer, serif;
+                font-weight: 900;
+                font-style: normal;
+                padding: 20px;
+                font-size: 76px;
+                text-align: center;
+                animation: fadeIn 2s;
+            }
+            .sub {
+                opacity: 0;
+                padding-left: 100px;
+                padding-right: 80px;
+                font-family: komet-sc, sans-serif;
+                font-weight: 500;
+                font-style: normal;
+                font-size: 24px;
+                text-align: left;
+                animation: fadeIn 2s;
+                animation-fill-mode: forwards;
+                animation-delay: .5s;
+            }
+
+            #tooltip{
+                font-family: dapifer, serif;
+                position: absolute;
+                width: 180px;
+                height: 80px;
+                padding: 5px;    
+                text-align: left;
+                text-anchor: middle;
+                color: white;
+                font-size: 14px;
+                font-weight: 600;
+                font-style: normal;
+                background: slategray; 
+                border-radius: 10px;
+            }
+            
+            @keyframes fadeIn {
+                0% { opacity: 0; }
+                100% { opacity: 1; }
+            }
+
+        </style>
+    </head>
+    <body>
+        <svg width="600" height="600"></svg>
+        <script type="text/javascript">
+           
+            const svg = d3.select("svg");
+            const w = 400;
+            const h= 400; 
+            const tooltip =d3.select("body")
+                         .append("div")
+                         .attr("id", "tooltip")
+                         .style("opacity", 0);
+            const myColor = d3.scaleOrdinal(['#DC1403','#6495ED','#EEE80A','#C0C0C0']);
+
+            
+            const dataset = d3.json("figs/data/payroll.json").then(dataset => {
+                dataset.forEach(d => {
+                d.first.Name = d.First.name;
+                d.pay = d.Regular.gross.paid;
+                d.boro = d.Borough;
+
+                console.log(dataset);
+            })
+
+                const simulation = d3.forceSimulation(dataset)
+                                    .force("charge", d3.forceManyBody().strength(5))
+                                    .force("center", d3.forceCenter().x(w/2).y(h/2))
+                                    .force("collision", d3.forceCollide().radius(d=>d.Regular.gross.paid));
+                                    
+                //our links (lines) - no links in this chart! 
+
+                //our nodes (circles) 
+                const nodes = svg.selectAll("circle")
+                                 .data(dataset.nodes)
+                                 .enter()
+                                 .append("circle")
+                                 .attr("r", d=>d.Regular.gross.paid) //radius is set by data
+                                 .style("fill", (d,i)=>myColor(i))
+                                 .style("stroke", "black");
+
+                //force ticks 
+                simulation.on("tick", (event,d)=>{      
+                  nodes.attr("cx", d=>d.x)
+                       .attr("cy", d=>d.y);
+                });
+
+        });
+
+            
+
+
+        </script>
+    </body>
+</html>
