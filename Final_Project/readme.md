@@ -1,10 +1,18 @@
-# Homework Assignment #7
+# Final Project
 
 ## Background
 
-This repository contains the necessary material for the fourth homework assignment in INFO-616. For this week, we were to experiment with layouts when designing visualizations. For my assignment, I paid special attention to creating linked network graphs to display campaign donation data collected by [OpenSecrets.org](https://docs.google.com/spreadsheets/d/1gJBJyd_Imn-kcNQbH08e5yjvPoLgxR-w4qKd_6hUGcM/edit?usp=sharing). This data includes individual donations made by law enforcement to presidential candidates and political action committees for the 2020 election cycle. 
+For my final project, I chose to highlight newly-released police misconduct data using a combination of D3 and reveal.js. In 2020, then-governor Andrew Cuomo repealed law 50-A, which sealed records of NYPD misconduct reports. The Legal Aid Society took action and requested, collected, and cleaned the data in order to present the information to the public. The data can be found at [Legalaidnyc.com](https://legalaidnyc.org/law-enforcement-look-up/). 
 
-## Coding the Visualization
+## Viewing the Piece
+
+To view this piece, it is best to ensure all packages are installed. To do so, first clone this repository to your local machine. Next, navigate to the folder in a command line window and run the node server using the command 
+
+```shell
+npm start
+```
+
+
 
 ### Cleaning Data
 
